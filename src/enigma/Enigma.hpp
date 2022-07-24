@@ -5,11 +5,6 @@
 #include "Reflector.hpp"
 #include "Rotor.hpp"
 
-#include <algorithm>
-#include <exception>
-#include <iostream>
-#include <stdexcept>
-
 namespace LyingCak3
 {
 
@@ -21,6 +16,17 @@ class Enigma
 {
 
 public:
+
+    Enigma()
+        : reflector_( 0 )
+        {
+
+            for ( size_t i = 0; i < N; ++i )
+            {
+                rotors_[ i ] = 0;
+            }
+
+        }
 
     void InstallRotor( size_t index, Rotor* rotor )
     {
@@ -41,36 +47,36 @@ public:
             if ( 0 == rotors_[ i ] )
             {
 
-                throw std::runtime_error( "Rotor(s) not defined." );
+                return 0;
                 
             }
 
         }
 
+        if ( 0 == reflector_ )
+        {
+            return 0;
+        }
+
         size_t result = input;
-        rotors_[ 0 ]->notched = true;
-        rotors_[ 0 ]->rotated = false;
-        for ( size_t i = 1; i < N; ++i )
+        for ( size_t i = 0; i < N; ++i )
         {
 
-            rotors_[ i ]->rotated = false; 
-            rotors_[ i ]->notched = std::find( rotors_[ i ]->notchValues, 
-                                                rotors_[ i ]->notchValues + rotors_[ i ]->numNotch, 
-                                                rotors_[ i ]->GetCurrent() 
-                                            ) != rotors_[ i ]->notchValues + rotors_[ i ]->numNotch;
+            rotors_[ i ]->InitializeCycle();
         }
 
         rotors_[ 0 ]->Rotate();
 
         for ( size_t i = 1; i < N; ++i )
         {
-            if ( true ==  rotors_[ i ]->notched )
+            if ( true ==  rotors_[ i - 1 ]->notched )
             {
                 
                 rotors_[ i ]->Rotate();
                 rotors_[ i - 1 ]->Rotate();
 
             }
+            
         }
 
         for ( size_t i = 0; i < N; ++i )

@@ -1,6 +1,19 @@
 
 #include "Rotor.hpp"
 
+#include <algorithm>
+
+void LyingCak3::Enigma::Rotor::InitializeCycle()
+{
+
+    rotated = false; 
+    notched = std::find( notchValues, 
+                                        notchValues + numNotch, 
+                                        GetCurrent() 
+                                    ) != notchValues + numNotch;
+
+}
+
 size_t LyingCak3::Enigma::Rotor::GetCurrent()
 {
 

@@ -26,9 +26,13 @@ public:
         , offset_( 0 )
         {};
 
+    void InitializeCycle();
+
     size_t GetCurrent();
 
     size_t GetValue( size_t index );
+
+    size_t GetOffset() { return offset_; }
 
     void Rotate();
 
