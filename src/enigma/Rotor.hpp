@@ -15,6 +15,16 @@ class Rotor
 
 public:
 
+    Rotor()
+        : notchValues( 0 )
+        , numValues( 0 )
+        , numNotch( 0 )
+        , notched( false )
+        , rotated( false )
+        , values_( 0 )
+        , offset_( 0 )
+        {};
+
     template< size_t N, size_t K >
     Rotor( const size_t v[][ N ], const size_t nv[][ K ] )
         : notchValues( *nv )
@@ -36,13 +46,13 @@ public:
 
     void Rotate();
 
-    const size_t* notchValues;
+    const size_t*       notchValues;
     const size_t        numValues;
     const size_t        numNotch;
     bool                notched;
     bool                rotated;
 
-private:
+protected:
     const size_t* values_;
     size_t        offset_;
 };
